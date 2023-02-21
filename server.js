@@ -1,25 +1,24 @@
-import express from "express";
-import dotenv from "dotenv";
+import express from 'express';
+import dotenv from 'dotenv';
 
-dotenv.config({ path: "./config/.env" });
+dotenv.config({ path: './config/.env' });
 
 const app = express();
 // const port = 3000; //add your port here
-const PUBLISHABLE_KEY =
-  "pk_test_51Mdbj6DyF0mL72AbpdhHPQTGxn6d9IKRPly4EePYmyQwGJVx4qAiV19QWWP88kOGfoLf0sIzvxrcM5nhCRorRmVJ00TrIKRqi9";
+const PUBLISHABLE_KEY = process.env.PUBLISHABLE_KEY;
 const SECRET_KEY = process.env.SECRET_KEY;
-import Stripe from "stripe";
+import Stripe from 'stripe';
 
 //Confirm the API version from your stripe dashboard
-const stripe = Stripe(SECRET_KEY, { apiVersion: "2022-11-15" });
+const stripe = Stripe(SECRET_KEY, { apiVersion: '2022-11-15' });
 
-app.post("/create-payment-intent", async (req, res) => {
+app.post('/create-payment-intent', async (req, res) => {
   try {
-    console.log("muneeb");
+    console.log('muneeb');
     const paymentIntent = await stripe.paymentIntents.create({
       amount: 1099, //lowest denomination of particular currency
-      currency: "usd",
-      payment_method_types: ["card"], //by default
+      currency: 'usd',
+      payment_method_types: ['card'], //by default
     });
 
     const clientSecret = paymentIntent.client_secret;
@@ -33,8 +32,8 @@ app.post("/create-payment-intent", async (req, res) => {
   }
 });
 
-app.get("/hello", (req, res) => {
-  res.send("hello world");
+app.get('/hello', (req, res) => {
+  res.send('hello world');
 });
 
 const PORT = process.env.PORT || 3000;
